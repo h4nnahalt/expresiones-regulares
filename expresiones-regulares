@@ -1,0 +1,76 @@
+Explicacion expresiones regulares***
+
+https://youtu.be/EkgxCLXgBvo
+
+Las expresiones regulares son un patron usado para buscar y reemplazar determinados caracteres que vienen definidos en la propia expresión regular. El concepto viene un algoritmo matematico creado por Stephed Cole Kleene. Se puede escribir en diferentes leguages de programacion. En este caso utilizaremos Python3.
+
+Para definir una expresión regular, la invocaremos como 'regex' o 're'. Comenzamos el script en python3 e importamos lo que mas abajo definiremos 're'
+
+#!/usr/bin/python3
+    import re
+    def main():
+
+ReplaceWord()
+DEmarcationLine()
+MatchAndReplaceWord()
+
+Podriamos Remplazar una palabra, remarcar una linea ó buscar y remplazar un conjunto de caracteres. Depende de para qué queramos usar la expresion regular.
+
+Pongamos el caso de que tenemos una lista de correos, y queremos ocultar la parte del dominio. Utilizariamos ReplaceWord() .
+
+Ahora vamos a definir qué caracteres queremos que ocultar, cada ceracter en una expresion regular tiene un significado particular o uno literal.
+
+En nuestro ejemplo si tenemos una lista de correos separados por un ; debemos especificar que un punto y coma es el separador, no un caracter especial.
+
+[^;]
+
+lo ponemos entre conchetes con el simbolo ^ delante para indicar todo lo que no empiece por ; le aplicara lo que definamos a continuacion.
+
+#!/usr/bin/python3
+
+import re
+def main():
+ReplaceWord()
+print('\r\n')
+def ReplaceWord():
+
+\r se refiere a retun y \n nueva linea, asi el output que nos decuelva este script nos ordenara en una linea nueva cada email. try:
+
+files = open("listacorreos.txt")
+for line in files:
+ print(re.sub(aqui puedes poner lo que quieres reemplazar))
+
+Bien lo que queremos reemplazar para este ejemplo es la parte del dominio de una lista de 200 e-mails y los dominios no coinciden.
+
+print(re.sub('[^;]*@yahoo.com ',"###########", line), end='')
+
+Asi le estamos diciendo imprime por pantalla todo lo que vaya detras de un ; sea lo que sea, seguido de @yahoo.com y sustituyelo por ########### lo que va entre comillas dobles, hay que decir line para especificar (aun que lo que de verdad hace que sea en una linea diferente es el \n) que va en una linea y que el final es igual a un espacio en blanco. esto parece accesorio pero hay que ponerlo.
+
+Acabamos poniendo la excepcion y cerramos el script
+
+except FileNotFoundError as e:
+                print("File was not found:", e)
+if __name__ == "__main__":
+main()
+
+Esto último es fijo, no se puede variar si queremos que nos funcione. el script final nos quedaria así:
+
+#!/usr/bin/python3
+
+import re
+def main():
+ReplaceWord()
+print('\r\n')
+def ReplaceWord():
+        try:
+                files = open("listacorreos.txt")
+                for line in files:
+                        print(re.sub('[^;]*@yahoo.com ',"###########", line), end='')
+        except FileNotFoundError as e:
+                print("File was not found:", e)
+
+
+if __name__ == "__main__":
+main()
+
+Creo que no hace falta decirlo, pero listacorreos.txt se supone que es el documento en txt que este script nos va a modificar, podria llamarse de cualquier otra manera, pero evidentemente el script que acabamos de definir solo funcionara en una lista de correos ocultando la parte del dominio incluyendo @, hemos usado @yahoo.com solo como ejemplo . Si queremos que nos funcione con varios dominios tendriamos que escribir los que queremos que nos oculte @microsoft.com | @google.es ... Separandolos con un pipe, haciendo referencia a un Booleano 'or'.
